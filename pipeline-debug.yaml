@@ -1,0 +1,101 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: csantana-nodejs-git
+spec:
+  type: git
+  params:
+    - name: url
+      value: https://github.com/csantanapr/appsody-sample-nodejs-express
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: csantana-nodejs-image
+spec:
+  type: image
+  params:
+    - name: url
+      value: docker-registry.default.svc:5000/csantana/appsody-sample-nodejs-express:tkn
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: csantana-nodejs-express-build-task
+  namespace: kabanero
+spec:
+  inputs:
+    params:
+      - default: /workspace/extracted/Dockerfile
+        name: pathToDockerFile
+      - default: /workspace/extracted
+        name: pathToContext
+    resources:
+      - name: git-source
+        outputImageDir: ""
+        targetPath: ""
+        type: git
+  outputs:
+    resources:
+      - name: docker-image
+        outputImageDir: /builder/home/image-outputs/docker-image
+        targetPath: ""
+        type: image
+  steps:
+    - args:
+        - -c
+        - /extract.sh
+      command:
+        - /bin/bash
+      env:
+        - name: gitsource
+          value: git-source
+      image: appsody/appsody-buildah
+      name: assemble-extract
+      resources: {}
+      securityContext:
+        privileged: true
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+    - name: npm-test
+      securityContext:
+        privileged: true
+      image: kabanero/nodejs-express:0.2
+      command:
+        [
+          "/bin/bash",
+          "-c",
+          "cd ${inputs.params.pathToContext}/user-app && ls && npm install --prefix user-app && npm install -g mocha && cd .. && npm test && npm test --prefix user-app",
+        ]
+      env:
+        - name: gitsource
+          value: git-source
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+  volumes:
+    - emptyDir: {}
+      name: varlibcontainers
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: csantana-nodejs-pipeline
+spec:
+  resources:
+    - name: git-source
+      type: git
+    - name: docker-image
+      type: image
+  tasks:
+    - name: nodejs-express-test-build-task
+      taskRef:
+        name: csantana-nodejs-express-build-task
+      resources:
+        inputs:
+          - name: git-source
+            resource: git-source
+        outputs:
+          - name: docker-image
+            resource: docker-image
