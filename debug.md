@@ -24,13 +24,18 @@ tkn pipeline start csantana-nodejs-pipeline \
         -s kabanero-operator \
         -n kabanero
 
-tkn pipelinerun list -n kabanero
+tkn pipelinerun list -n kabanero -l 1
 tkn pipeline logs -f -n kabanero
-tkn taskrun list -n kabanero
+tkn taskrun list -n kabanero -l 1
 
 
 
-
+      command:
+        [
+          "/bin/bash",
+          "-c",
+          "cd /project && cp -a ${inputs.resources.git-source.path}/* $APPSODY_WATCH_DIR && $APPSODY_INSTALL && npm test; if [ $? -eq 0 ]; then npm test --prefix user-app; else exit 1; fi",
+        ]
 
 
 tkn pipelinerun describe custom-pipeline-nodejs-express-1569521168-r-80331 -n kabanero

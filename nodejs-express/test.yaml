@@ -3,6 +3,26 @@ apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
   name: csantana-nodejs-express-build-task
+spec:
+  inputs:
+    resources:
+      - name: git-source
+        type: git
+  steps:
+    - name: npm-test
+      image: kabanero/nodejs-express:0.2
+      workingDir: /project
+      command:
+        [
+          "/bin/bash",
+          "-c",
+          "cp -a ${inputs.resources.git-source.path}/* $APPSODY_WATCH_DIR && $APPSODY_INSTALL && echo $APPSODY_TEST >/tmp/test.sh && source /tmp/test.sh",
+        ]
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: csantana-nodejs-express-build-old
   namespace: kabanero
 spec:
   inputs:
@@ -58,25 +78,3 @@ spec:
   volumes:
     - emptyDir: {}
       name: varlibcontainers
----
-apiVersion: tekton.dev/v1alpha1
-kind: Pipeline
-metadata:
-  name: csantana-nodejs-pipeline
-spec:
-  resources:
-    - name: git-source
-      type: git
-    - name: docker-image
-      type: image
-  tasks:
-    - name: nodejs-express-test-build-task
-      taskRef:
-        name: csantana-nodejs-express-build-task
-      resources:
-        inputs:
-          - name: git-source
-            resource: git-source
-        outputs:
-          - name: docker-image
-            resource: docker-image

@@ -37,6 +37,3 @@ spec:
         inputs:
           - name: git-source
             resource: git-source
-        outputs:
-          - name: docker-image
-            resource: docker-image
