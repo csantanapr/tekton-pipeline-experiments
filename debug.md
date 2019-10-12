@@ -29,7 +29,7 @@ tkn pipeline logs -f -n kabanero
 tkn taskrun list -n kabanero -l 1
 
 
-
+echo $APPSODY_TEST >/tmp/test.sh && source /tmp/test.sh
       command:
         [
           "/bin/bash",
