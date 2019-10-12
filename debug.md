@@ -15,14 +15,14 @@ tkn pipeline start csantana-nodejs-pipeline \
 tkn pipeline start csantana-nodejs-pipeline \
         -r git-source=csantana-nodejs-git \
         -r docker-image=csantana-nodejs-image \
+        -p image-tag=master \
+        -p image-name=docker-registry.default.svc:5000/kabanero-samples/appsody-sample-nodejs-express \
+        -p release-name=appsody-sample-nodejs-express \
+        -p repository-name=appsody-sample-nodejs-express \
+        -p target-namespace=kabanero \
+        -p docker-registry=docker-registry.default.svc:5000/kabanero-samples \
         -s kabanero-operator \
-        -n kabanero \
-        -p image-tag master \
-        -p image-name docker-registry.default.svc:5000/kabanero-samples/appsody-sample-nodejs-express \
-        -p release-name appsody-sample-nodejs-express \
-        -p repository-name appsody-sample-nodejs-express \
-        -p target-namespace kabanero \
-        -p docker-registry docker-registry.default.svc:5000/kabanero-samples \
+        -n kabanero
 
 tkn pipelinerun list -n kabanero
 tkn pipeline logs -f -n kabanero
