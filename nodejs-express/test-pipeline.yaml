@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
 metadata:
-  name: csantana-nodejs-test-pipeline
+  name: nodejs-express-test-pipeline
 spec:
   resources:
     - name: git-source
@@ -10,7 +10,7 @@ spec:
   tasks:
     - name: test-task
       taskRef:
-        name: csantana-nodejs-express-test-task
+        name: nodejs-express-test-task
       resources:
         inputs:
           - name: git-source

@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: csantana-nodejs-express-test-task
+  name: nodejs-express-test-task
 spec:
   inputs:
     resources:

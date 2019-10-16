@@ -88,7 +88,7 @@ oc create -f nodejs-express/test-task.yaml
 ```
 out:
 ```
-task.tekton.dev/csantana-nodejs-express-test-task created
+task.tekton.dev/nodejs-express-test-task created
 ```
 
 Create a pipeline that only runs the test task
@@ -97,22 +97,22 @@ oc create -f nodejs-express/test-pipeline.yaml
 ```
 out:
 ```
-pipeline.tekton.dev/csantana-nodejs-test-pipeline created
+pipeline.tekton.dev/nodejs-express-test-pipeline created
 ```
 
 Start a pipeline run
 ```
-tkn pipeline start csantana-nodejs-test-pipeline \
+tkn pipeline start nodejs-express-test-pipeline \
         -r git-source=csantana-nodejs-git \
         -s kabanero-operator \
         -n kabanero
 ```
 out:
 ```
-Pipelinerun started: csantana-nodejs-test-pipeline-run-46f5s
+Pipelinerun started: nodejs-express-test-pipeline-run-5cp78
 
 In order to track the pipelinerun progress run:
-tkn pipelinerun logs csantana-nodejs-test-pipeline-run-46f5s -f -n kabanero
+tkn pipelinerun logs nodejs-express-test-pipeline-run-5cp78 -f -n kabanero
 ```
 
 Verify the pipeline run
@@ -121,8 +121,8 @@ tkn pipelinerun list -n kabanero -l 1
 ```
 out:
 ```
-NAME                                      STARTED         DURATION   STATUS    
-csantana-nodejs-test-pipeline-run-46f5s   4 seconds ago   ---        Running 
+NAME                                     STARTED          DURATION   STATUS    
+nodejs-express-test-pipeline-run-5cp78   20 seconds ago   ---        Running 
 ```
 
 Verify the task run
@@ -131,24 +131,24 @@ tkn taskrun list -n kabanero -l 1
 ```
 out:
 ```
-NAME                                                      STARTED          DURATION     STATUS      
-csantana-nodejs-test-pipeline-run-46f5s-test-task-cndmk   51 seconds ago   25 seconds   Succeeded  
+NAME                                                     STARTED          DURATION     STATUS      
+nodejs-express-test-pipeline-run-5cp78-test-task-g6tt7   32 seconds ago   24 seconds   Succeeded  
 ```
 
 Describe the pipeline run
 ```
-tkn pipelinerun describe csantana-nodejs-test-pipeline-run-46f5s 
+tkn pipelinerun describe nodejs-express-test-pipeline-run-5cp78 
 ```
 out:
 ```               
-Name:              csantana-nodejs-test-pipeline-run-46f5s
+Name:              nodejs-express-test-pipeline-run-5cp78
 Namespace:         kabanero
-Pipeline Ref:      csantana-nodejs-test-pipeline
+Pipeline Ref:      nodejs-express-test-pipeline
 Service Account:   kabanero-operator
 
 Status
-STARTED         DURATION     STATUS
-2 minutes ago   25 seconds   Succeeded
+STARTED          DURATION     STATUS
+56 seconds ago   24 seconds   Succeeded
 
 Resources
 NAME         RESOURCE REF
@@ -158,24 +158,24 @@ Params
 No params
 
 Taskruns
-NAME                                                      TASK NAME   STARTED         DURATION     STATUS
-csantana-nodejs-test-pipeline-run-46f5s-test-task-cndmk   test-task   2 minutes ago   25 seconds   Succeeded
+NAME                                                     TASK NAME   STARTED          DURATION     STATUS
+nodejs-express-test-pipeline-run-5cp78-test-task-g6tt7   test-task   56 seconds ago   24 seconds   Succeeded
 ```
 
 Describe the task run
 ```
-tkn taskrun describe csantana-nodejs-test-pipeline-run-46f5s-test-task-cndmk
+tkn taskrun describe  nodejs-express-test-pipeline-run-5cp78-test-task-g6tt7 
 ```
 out:
 ```                
-Name:              csantana-nodejs-test-pipeline-run-46f5s-test-task-cndmk
+Name:              nodejs-express-test-pipeline-run-5cp78-test-task-g6tt7
 Namespace:         kabanero
-Task Ref:          csantana-nodejs-express-test-task
+Task Ref:          nodejs-express-test-task
 Service Account:   kabanero-operator
 
 Status
-STARTED         DURATION     STATUS
-3 minutes ago   25 seconds   Succeeded
+STARTED        DURATION     STATUS
+1 minute ago   24 seconds   Succeeded
 
 Input Resources
 NAME         RESOURCE REF
@@ -190,17 +190,17 @@ No params
 Steps
 NAME
 npm-test
-git-source-csantana-nodejs-git-t249w
+git-source-csantana-nodejs-git-bkf9j
 ```
 
 Get the logs for a task
 ```
-tkn taskrun logs -n kabanero csantana-nodejs-test-pipeline-run-46f5s-test-task-cndmk
+tkn taskrun logs nodejs-express-test-pipeline-run-5cp78-test-task-g6tt7 -f
 ```
 
 Get the logs for a pipeline
 ```
-tkn pipelinerun logs csantana-nodejs-test-pipeline-run-46f5s -f -n kabanero
+tkn pipelinerun logs nodejs-express-test-pipeline-run-5cp78 -f
 ```
 
 Create a full pipeline test, build, deploy
@@ -271,8 +271,8 @@ To clean use `tkn`
 ```
 tkn resource delete csantana-nodejs-git -f
 tkn resource delete csantana-nodejs-image -f
-tkn task delete csantana-nodejs-express-test-task -f
-tkn pipeline delete csantana-nodejs-test-pipeline -f 
+tkn task delete nodejs-express-test-task -f
+tkn pipeline delete nodejs-test-pipeline -f 
 tkn pipeline delete nodejs-express-test-build-deploy-pipeline -f 
 ```
 or use `oc`
