@@ -18,22 +18,3 @@ spec:
   params:
     - name: url
       value: docker-registry.default.svc:5000/csantana/appsody-sample-nodejs-express:tkn
----
-apiVersion: tekton.dev/v1alpha1
-kind: Pipeline
-metadata:
-  name: csantana-nodejs-pipeline
-spec:
-  resources:
-    - name: git-source
-      type: git
-    - name: docker-image
-      type: image
-  tasks:
-    - name: nodejs-express-test-build-task
-      taskRef:
-        name: csantana-nodejs-express-build-task
-      resources:
-        inputs:
-          - name: git-source
-            resource: git-source

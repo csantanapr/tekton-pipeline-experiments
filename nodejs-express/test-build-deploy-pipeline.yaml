@@ -11,7 +11,7 @@ spec:
   tasks:
     - name: test-task
       taskRef:
-        name: csantana-nodejs-express-build-task
+        name: csantana-nodejs-express-test-task
       resources:
         inputs:
           - name: git-source
