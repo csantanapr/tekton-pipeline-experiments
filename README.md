@@ -5,7 +5,7 @@ Small repo with experiments for debugging and customizing tekton pipelines
 ## Prerequisites
 CLIs to get
 - `oc`
-- `tkn`
+- `tkn` [Install Instructions](https://github.com/tektoncd/cli#installing-tkn)
 - `kubens`
 
 Use `tkn` to work with Tekton
