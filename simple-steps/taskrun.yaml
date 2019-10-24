@@ -8,7 +8,7 @@ spec:
       - name: state
         emptyDir: {}
     steps:
-      - name: task1
+      - name: step1
         image: ubuntu
         volumeMounts:
           - name: state
@@ -22,7 +22,7 @@ spec:
             c=$(($a+$b))
             echo "c=$a + $b"
             echo "c=$c">/tmp/state/c
-      - name: task2
+      - name: step2
         image: ubuntu
         volumeMounts:
           - name: state
