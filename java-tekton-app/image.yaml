@@ -6,4 +6,4 @@ spec:
   type: image
   params:
     - name: url
-      value: index.docker.io/csantanapr/cloudnative_sample_app
+      value: index.docker.io/REPLACEME/cloudnative_sample_app

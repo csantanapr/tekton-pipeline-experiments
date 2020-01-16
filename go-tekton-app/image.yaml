@@ -6,4 +6,4 @@ spec:
   type: image
   params:
     - name: url
-      value: index.docker.io/csantanapr/leeroy-web
+      value: index.docker.io/REPLACEME/leeroy-web

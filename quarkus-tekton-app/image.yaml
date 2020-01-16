@@ -6,4 +6,4 @@ spec:
   type: image
   params:
     - name: url
-      value: index.docker.io/csantanapr/knative-tutorial-greeter
+      value: index.docker.io/REPLACEME/knative-tutorial-greeter
