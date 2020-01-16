@@ -1,0 +1,9 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: skaffold-image-leeroy-web
+spec:
+  type: image
+  params:
+    - name: url
+      value: index.docker.io/csantanapr/leeroy-web
