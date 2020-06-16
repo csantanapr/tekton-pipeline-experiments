@@ -1,0 +1,33 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: test
+spec:
+  params:
+    - name: repo-url
+      default: https://github.com/ibm-cloud-architecture/cloudnative_sample_app
+    - name: revision
+      default: master
+  workspaces:
+    - name: w
+  tasks:
+    - name: git-clone
+      taskRef:
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: w
+      params:
+        - name: url
+          value: $(params.repo-url)
+        - name: revision
+          value: $(params.revision)
+        - name: deleteExisting
+          value: "true"
+    - name: test
+      runAfter: ["git-clone"]
+      taskRef:
+        name: java-test
+      workspaces:
+        - name: source
+          workspace: w
