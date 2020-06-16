@@ -14,7 +14,7 @@ spec:
         echo "tests passed with rc=$?"
       volumeMounts:
         - name: m2-repository
-          mountPath: /.m2
+          mountPath: /root/.m2
   volumes:
     - name: m2-repository
       emptyDir: {}

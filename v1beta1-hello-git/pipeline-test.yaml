@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: test
+spec:
+  params:
+    - name: repo-url
+      default: https://github.com/ibm-cloud-architecture/cloudnative_sample_app
+    - name: revision
+      default: master
+  tasks:
+    - name: test
+      taskRef:
+        name: java-test
+      params:
+        - name: url
+          value: $(params.repo-url)
+        - name: revision
+          value: $(params.revision)
